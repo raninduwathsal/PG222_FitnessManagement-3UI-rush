@@ -1,4 +1,4 @@
-package com.pg222.fitness;
+package pg222.fitness;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
