@@ -1,3 +1,0 @@
-1,FitNoob,5.0,Gym Access Only
-2,FitPro,20.0,Gym + Classes
-3,FitElite,30.0,All Access + Personal Trainer
