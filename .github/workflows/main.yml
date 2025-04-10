@@ -1,0 +1,70 @@
+name: Deploy Spring Boot App to VPS
+
+on:
+  push:
+    branches:
+      - master  # Trigger the workflow on push to the 'master' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Java
+      # - name: Set up JDK 21
+      #   uses: actions/setup-java@v3
+      #   with:
+      #     java-version: '21'
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin' # Specify the Java distribution (e.g., adopt, temurin, zulu)
+
+      # Cache Maven dependencies
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Build with Maven
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+
+      # Deploy to VPS
+      - name: Deploy to VPS
+        env:
+          PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}  # Store your private key in GitHub Secrets
+          VPS_USER: ${{ secrets.VPS_USER }}  # The username for SSH (e.g., 'root' or 'ubuntu')
+          VPS_HOST: ${{ secrets.VPS_HOST }}  # The IP address or hostname of your VPS
+        run: |
+          # Install SSH client and SCP (just in case it's missing)
+          sudo apt-get update
+          sudo apt-get install -y openssh-client
+          
+          # Create SSH key directory
+          mkdir -p ~/.ssh
+          
+          # Add the private SSH key for authentication
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          
+          # Add the VPS to known hosts to avoid confirmation prompt
+          ssh-keyscan -H $VPS_HOST >> ~/.ssh/known_hosts
+          
+          # Create the pg222-project directory if it doesn't exist
+          ssh $VPS_USER@$VPS_HOST 'mkdir -p ~/pg222-project'
+          
+          # Deploy the JAR file to the pg222-project directory on the VPS
+          scp target/fitness-0.0.1-SNAPSHOT.jar $VPS_USER@$VPS_HOST:~/pg222-project/
+          
+          # SSH into the VPS, change to the pg222-project directory, and run the app in the background using nohup
+          ssh $VPS_USER@$VPS_HOST 'cd ~/pg222-project && nohup java -jar fitness-0.0.1-SNAPSHOT.jar > nohup.out 2>&1 &'
