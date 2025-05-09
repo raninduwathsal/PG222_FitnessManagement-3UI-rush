@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Register Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <style media="screen">
+    <style>
         :root {
-            --accent: #FFA500;
-            --color1: linear-gradient(to bottom right, #FFA500, #FF5F1F);
-            --transparent: rgb(255, 255, 255, 0.3);
+            --accent: #1E90FF;
+            --color1: linear-gradient(to bottom right, #1E90FF, #4169E1);
+            --transparent: rgba(255, 255, 255, 0.3);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #EEEEEE;
+            background-color: #E0F0FF;
             display: flex;
             justify-content: center;
         }
@@ -22,7 +22,7 @@
             display: flex;
             flex-direction: column;
             width: 300px;
-            height: 550px; /* Increased height to accommodate new button */
+            height: 500px;
             background-color: var(--transparent);
             color: #000000;
             position: absolute;
@@ -34,7 +34,7 @@
             text-align: center;
         }
 
-        input, select {
+        input {
             font-family: 'Poppins', sans-serif;
             font-size: 14px;
             font-weight: 300;
@@ -48,18 +48,9 @@
             color: #000000;
         }
 
-        select {
-            color: #000000;
-        }
-
-        option {
-            color: #000000;
-            background-color: #EEEEEE;
-        }
-
         button {
             background: var(--color1);
-            color: #000000;
+            color: #ffffff;
             text-decoration: none;
             padding: 12px 0;
             margin: 20px 0 10px 0;
@@ -74,13 +65,13 @@
         }
 
         button:hover {
-            transform: translatey(2px);
+            transform: translateY(2px);
             box-shadow: none;
         }
 
         .login-link {
-            background: linear-gradient(to bottom right, #666666, #333333); /* Darker gradient for contrast */
-            color: #ffffff; /* White text for readability */
+            background: linear-gradient(to bottom right, #5f9ea0, #4682b4);
+            color: #ffffff;
             text-decoration: none;
             padding: 12px 0;
             margin: 10px 0;
@@ -94,45 +85,40 @@
         }
 
         .login-link:hover {
-            transform: translatey(2px);
+            transform: translateY(2px);
             box-shadow: none;
-            color: #ffffff; /* Maintain white text on hover */
+            color: #ffffff;
         }
 
-        .circle {
+        .circle, .circle-1, .circle-2 {
             position: absolute;
-            top: 50%;
-            left: 50%;
             background: var(--color1);
             border-radius: 50%;
             z-index: -1;
+        }
+
+        .circle {
             width: 100px;
             height: 100px;
+            top: 50%;
+            left: 50%;
             transform: translate(-250px, -200px);
         }
 
         .circle-1 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            background: var(--color1);
             width: 250px;
             height: 250px;
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(100px, 50px);
-            z-index: -1;
         }
 
         .circle-2 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            background: var(--color1);
             width: 150px;
             height: 150px;
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-250px, 50px);
-            z-index: -1;
         }
 
         label {
@@ -163,8 +149,8 @@
 <div class="circle"></div>
 <div class="circle-1"></div>
 <div class="circle-2"></div>
-<form th:action="@{/api/users/register}" method="post" class="form">
-    <h2>Register</h2>
+<form th:action="@{/api/users/register-admin}" method="post" class="form">
+    <h2>Register Admin</h2>
 
     <label>Username:</label>
     <input type="text" name="username" required>
@@ -175,15 +161,9 @@
     <label>Email:</label>
     <input type="email" name="email" required>
 
-    <label>Role:</label>
-    <select name="role">
-        <option value="member">Member</option>
-<!--        <option value="admin">Admin</option>-->
-    </select>
-
     <button type="submit">Register</button>
 
-    <a href="/api/users/login" class="login-link">Already a member? Login</a>
+    <a href="/api/users/login" class="login-link">Already registered? Login</a>
 
     <p th:if="${param.error}" class="error-message">Username or email already exists</p>
 </form>

@@ -42,12 +42,28 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String role) throws IOException {
-        User user = role.equals("member") ? new GymMember(username, password, email) : new Admin(username, password, email);
+        User user =  new GymMember(username, password, email) ;
         if (userService.registerUser(user)) {
             return "redirect:/api/users/login";
         }
         return "redirect:/api/users/register?error";
     }
+    @GetMapping("/register-admin")
+    public String showRegisterAdmin() {
+        return "register-admin";
+    }
+
+    @PostMapping("/register-admin")
+    public String registerAdmin(@RequestParam String username,
+                                @RequestParam String password,
+                                @RequestParam String email) throws IOException {
+        User admin = new Admin(username, password, email);
+        if (userService.registerUser(admin)) {
+            return "redirect:/api/users/login";
+        }
+        return "redirect:/api/users/register-admin?error";
+    }
+
 
     @GetMapping("/update")
     public String showUpdate() {
