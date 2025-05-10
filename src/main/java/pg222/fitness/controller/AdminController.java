@@ -21,6 +21,17 @@ public class AdminController {
     @Autowired
     private MembershipService membershipService;
 
+    @GetMapping("/pending-requests")
+    public String viewPendingRequests(Model model, HttpSession session) throws IOException {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getRole().equals("admin")) return "redirect:/api/users/login";
+
+        Queue<RenewalRequest> pendingRequests = requestService.getPendingRequests();
+        model.addAttribute("requests", pendingRequests);
+
+        return "pending-requests"; // Render the new HTML page
+    }
+
     @GetMapping("/dashboard")
     public String adminDashboard(Model model, HttpSession session) throws IOException {
         User user = (User) session.getAttribute("user");
