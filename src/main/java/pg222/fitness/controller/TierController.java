@@ -20,6 +20,12 @@ public class TierController {
     @Autowired
     private RequestService requestService;
 
+    @GetMapping("/view-tiers")
+    public String displayTiers(Model model) throws IOException {
+        model.addAttribute("tiers", tierService.getAllTiers());
+        return "display-tiers"; // The name of the Thymeleaf template (display-tiers.html)
+    }
+
     @GetMapping("/upgrade")
     public String showTiers(Model model) throws IOException {
         model.addAttribute("tiers", tierService.getAllTiers());
