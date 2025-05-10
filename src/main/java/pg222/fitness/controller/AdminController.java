@@ -21,6 +21,15 @@ public class AdminController {
     @Autowired
     private MembershipService membershipService;
 
+    @GetMapping("/memberships")
+    public String viewCurrentMemberships(Model model, HttpSession session) throws IOException {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getRole().equals("admin")) return "redirect:/api/users/login";
+
+        model.addAttribute("memberships", membershipService.getAllMembershipsSortedByExpiryDate());
+        return "current-memberships"; // Render the new HTML page
+    }
+
     @GetMapping("/pending-requests")
     public String viewPendingRequests(Model model, HttpSession session) throws IOException {
         User user = (User) session.getAttribute("user");
