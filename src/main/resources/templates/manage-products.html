@@ -90,9 +90,11 @@
                         <input type="url" class="form-control" id="imageUrl" name="imageUrl" required>
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="available" name="available">
+                        <input type="checkbox" class="form-check-input" id="available" name="available" checked disabled>
+                        <input type="hidden" name="available" value="on">
                         <label class="form-check-label" for="available">Available</label>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

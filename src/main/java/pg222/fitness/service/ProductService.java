@@ -34,6 +34,9 @@ public class ProductService {
         if (product.getId() == null || product.getId().isEmpty()) {
             product.setId(UUID.randomUUID().toString());
         }
+        if (!product.isAvailable()){
+            product.setAvailable(false);
+        }
 
         List<Product> products = getAllProducts();
         List<String> newLines = new ArrayList<>();
