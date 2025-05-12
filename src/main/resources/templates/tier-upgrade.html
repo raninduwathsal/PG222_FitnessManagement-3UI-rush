@@ -185,7 +185,7 @@
     <h2>Choose Your Tier</h2>
     <div th:each="tier : ${tiers}" class="tier-card">
         <h5 th:text="${tier.name}"></h5>
-        <p class="price">Price: $<span th:text="${tier.price}"></span></p>
+        <p class="price">Price: Rs<span th:text="${tier.price}"></span></p>
         <p th:text="${tier.features}"></p>
         <form th:action="@{/api/upgrade}" method="post">
             <input type="hidden" name="tierId" th:value="${tier.tierId}">

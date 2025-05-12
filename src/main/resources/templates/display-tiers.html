@@ -127,7 +127,7 @@
     <!-- Iterate over tiers passed from the controller -->
     <div th:each="tier : ${tiers}" class="tier-card">
         <h5 th:text="${tier.name}"></h5>
-        <p class="price" th:text="'$' + ${tier.price}"></p>
+        <p class="price" th:text="'Rs' + ${tier.price}"></p>
         <p th:text="${tier.features}"></p>
     </div>
 </div>

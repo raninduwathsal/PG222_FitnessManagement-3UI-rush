@@ -174,7 +174,7 @@
                  class="product-image"
                  th:alt="${product.name}">
             <h3 class="product-name" th:text="${product.name}">Product Name</h3>
-            <div class="product-price" th:text="'$' + ${#numbers.formatDecimal(product.price, 0, 2)}">$0.00</div>
+            <div class="product-price" th:text="'Rs' + ${#numbers.formatDecimal(product.price, 0, 2)}">$0.00</div>
             <span th:if="${product.available}"
                   class="status-badge status-available">
                     In Stock
